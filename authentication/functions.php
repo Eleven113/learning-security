@@ -32,8 +32,9 @@ function logUser($email, $password)
 
 function getUser($id) {
     $connexion = connectDb();
-    $sql = 'SELECT * FROM users WHERE id = ' . $id;
+    $sql = 'SELECT * FROM users WHERE id = :id';
     $stmt = $connexion->prepare($sql);
+    $stmt->bindValue(':id', $id);
     $stmt->execute();
 
     return $stmt->fetchAll(PDO::FETCH_OBJ);
