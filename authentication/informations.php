@@ -1,4 +1,5 @@
 <?php
+session_start();
 require_once('functions.php');
 $user = null;
 if(isset($_GET['id'])) {
@@ -9,7 +10,7 @@ if(isset($_GET['id'])) {
 }
 ?>
 
-<?php if($user): ?>
+<?php if($user->id === $_SESSION['user']->id): ?>
 <h1>Information de l'utilisateur <?= $user->email ?></h1>
 <table>
     <tr>
@@ -26,7 +27,7 @@ if(isset($_GET['id'])) {
     </tr>
 </table>
 <?php else: ?>
-    L'utilisateur recherché n'existe pas
+    L'utilisateur recherché n'existe pas ou vous n'êtes pas autorisé à accéder à ces informations.
 <?php endif; ?>
 <br/>
 <br/>

@@ -20,7 +20,14 @@ function logUser($email, $password)
     $stmt = $connexion->prepare($sql);
     $stmt->execute();
 
-    return $stmt->fetchAll(PDO::FETCH_OBJ);
+    $users = $stmt->fetchAll(PDO::FETCH_OBJ);
+    $user = $users[0];
+
+    if (password_verify($password,$user->password)){
+        return $user;
+    }
+
+    return null;
 }
 
 function getUser($id) {
@@ -33,7 +40,7 @@ function getUser($id) {
 }
 
 function saveUser($email, $username, $password) {
-    $password = password_hash(hash('sha512', $password, true), PASSWORD_DEFAULT);
+    $password = password_hash($password, PASSWORD_DEFAULT);
     $connexion = connectDb();
     $sql = 'INSERT INTO users(username,email,password) VALUES("'.$email.'","'.$username.'","'.$password.'")';
     $stmt = $connexion->prepare($sql);

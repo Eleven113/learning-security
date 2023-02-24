@@ -3,12 +3,9 @@ require_once('functions.php');
 session_start();
 $user = isset($_SESSION['user']) ? $_SESSION['user'] : null;
 if (isset($_GET['email']) && isset($_GET['password'])) {
-    $users = logUser($_GET['email'], $_GET['password']);
-    if(!empty($users)) {
-        $user = $users[0];
-        if (password_verify($_GET['password'],$user->password)){
-            $_SESSION['user'] = $user;
-        }
+    $user = logUser($_GET['email'], $_GET['password']);
+    if($user){
+        $_SESSION['user'] = $user;
     }
 }
 
