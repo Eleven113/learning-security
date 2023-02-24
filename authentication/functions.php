@@ -3,7 +3,7 @@
 function connectDb()
 {
     try {
-        $conn = new PDO("mysql:host=127.0.0.1;dbname=learningsecurity", 'root', 'root');
+        $conn = new PDO("mysql:host=127.0.0.1:3306;dbname=learningsecurity", 'root', 'root');
         // set the PDO error mode to exception
         $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         return $conn;
@@ -16,7 +16,7 @@ function connectDb()
 function logUser($email, $password)
 {
     $connexion = connectDb();
-    $sql = 'SELECT * FROM users WHERE email = "' . $email . '" AND password = "' .$password . '"';
+    $sql = 'SELECT * FROM users WHERE email = "' . $email .'"';
     $stmt = $connexion->prepare($sql);
     $stmt->execute();
 
@@ -33,6 +33,7 @@ function getUser($id) {
 }
 
 function saveUser($email, $username, $password) {
+    $password = password_hash(hash('sha512', $password, true), PASSWORD_DEFAULT);
     $connexion = connectDb();
     $sql = 'INSERT INTO users(username,email,password) VALUES("'.$email.'","'.$username.'","'.$password.'")';
     $stmt = $connexion->prepare($sql);

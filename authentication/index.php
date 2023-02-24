@@ -6,9 +6,12 @@ if (isset($_GET['email']) && isset($_GET['password'])) {
     $users = logUser($_GET['email'], $_GET['password']);
     if(!empty($users)) {
         $user = $users[0];
-        $_SESSION['user'] = $user;
+        if (password_verify($_GET['password'],$user->password)){
+            $_SESSION['user'] = $user;
+        }
     }
 }
+
 ?>
 
 <html>
